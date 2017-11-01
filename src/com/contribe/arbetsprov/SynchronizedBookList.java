@@ -1,10 +1,24 @@
 package com.contribe.arbetsprov;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Scanner;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Service;
+
+@Service
 public class SynchronizedBookList implements BookList {
 
+	@Autowired
+	Environment env;
+	
 	TreeMap<Book, Integer> bookStore = new TreeMap<>();
 	
 	@Override
@@ -55,6 +69,32 @@ public class SynchronizedBookList implements BookList {
 		}
 		
 		return res;
+	}
+	
+	@PostConstruct
+	public void init() throws IOException {
+		System.out.println("initializing SynchronizedBookList");
+		
+		URL url = new URL(env.getProperty("arbetsprov.url"));
+		
+		Scanner in = new Scanner(url.openStream(), "UTF-8");
+		
+		while(in.hasNextLine()) {
+			String line = in.nextLine();
+			String[] elems = line.trim().split(";");
+			System.out.println(line);
+			if(elems.length == 4) {
+				Book book = new Book(elems[0], elems[1], elems[2].replaceAll(",", ""));
+				this.add(book, Integer.parseInt(elems[3]));
+				
+				System.out.println("added book");
+			} else {
+				//logga
+			}
+		}
+		in.close();
+		
+		System.out.println(env.getProperty("arbetsprov.url"));
 	}
 
 }
