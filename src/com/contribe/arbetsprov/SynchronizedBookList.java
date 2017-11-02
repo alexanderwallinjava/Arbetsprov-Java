@@ -59,6 +59,12 @@ public class SynchronizedBookList implements BookList {
 		int[] res = new int[books.length];
 		
 		for(int i = 0; i < books.length; i++) {
+			
+			if(books[i] == null) {
+				res[i] = BookList.DOES_NOT_EXIST;
+				continue;
+			}
+			
 			if(this.bookStore.containsKey(books[i])) {
 				if(bookStore.get(books[i]) > 0) {
 					bookStore.put(books[i], bookStore.get(books[i])-1);
@@ -91,7 +97,7 @@ public class SynchronizedBookList implements BookList {
 				elems[2] = elems[2].replaceAll(",", "");
 
 				if(elems.length == 4) {
-					logger.debug("adding book: "  + line);
+					logger.info("adding book: "  + line);
 					
 					try {
 						Book book = new Book(elems[0], elems[1], elems[2]);
