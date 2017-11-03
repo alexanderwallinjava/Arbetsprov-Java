@@ -35,7 +35,7 @@ public class RESTClientBookList implements BookList {
 					URLEncoder.encode(book.getTitle(), "UTF-8") + 
 					"&author=" + URLEncoder.encode(book.getAuthor(), "UTF-8") + 
 					"&price=" + URLEncoder.encode(book.getPrice().toString(), "UTF-8") + 
-					"&amount=" + URLEncoder.encode(book+"", "UTF-8"), Boolean.class);
+					"&amount=" + quantity, Boolean.class);
 		} catch (UnsupportedEncodingException | RestClientException e) {
 			return false;
 		}
@@ -51,7 +51,7 @@ public class RESTClientBookList implements BookList {
 					buyText.append("&");
 				buyText.append("title=" + URLEncoder.encode(book.getTitle(), "UTF-8") + "&");
 				buyText.append("author=" + URLEncoder.encode(book.getAuthor(), "UTF-8") + "&");
-				buyText.append("price=" + URLEncoder.encode(book.getPrice().toString(), "UTF-8"));
+				buyText.append("price=" + book.getPrice().toString());
 			}
 		} catch (UnsupportedEncodingException | RestClientException e) {
 			int[] res = new int[books.length];

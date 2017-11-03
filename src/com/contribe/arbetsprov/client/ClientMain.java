@@ -1,11 +1,8 @@
 package com.contribe.arbetsprov.client;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.ArrayList;
 
 import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.RestTemplate;
 
 import com.contribe.arbetsprov.Book;
 import com.contribe.arbetsprov.BookList;
@@ -18,65 +15,23 @@ public class ClientMain {
 		ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) org.slf4j.LoggerFactory.getLogger(ch.qos.logback.classic.Logger.ROOT_LOGGER_NAME);
 		root.setLevel(Level.OFF);
 		
-		RestTemplate restTemplate = new RestTemplate();
+		BookList api = new RESTClientBookList();
 		
-		Book[] books = restTemplate.getForObject("http://localhost:8080/search", Book[].class);
+		System.out.println(api.list("").length);
 		
-		System.out.println(books.length);
+		Book book = new Book("Min lilla bok", "Alexander Wallin", "10.0");
 		
-		books = restTemplate.getForObject("http://localhost:8080/search?search=a", Book[].class);
+		System.out.println(api.add(book, 2));
 		
-		System.out.println(books.length);
+		System.out.println(api.list("").length);
 		
-		System.exit(0);
-		for(Book book : books)
-			System.out.println(book);
+		int[] res = api.buy(book);
 		
-		System.out.println("\n\n");
+		System.out.println(res.length);
 		
-		Book newBook = new Book("title", "author", "1.5");
-		int amount = 3;
-		System.out.println(newBook);
-		
-		boolean success = restTemplate.getForObject("http://localhost:8080/add?title=" + URLEncoder.encode(newBook.getTitle(), "UTF-8") + 
-				"&author=" + URLEncoder.encode(newBook.getAuthor(), "UTF-8") + 
-				"&price=" + URLEncoder.encode(newBook.getPrice().toString(), "UTF-8") + 
-				"&amount=" + URLEncoder.encode(amount+"", "UTF-8"), Boolean.class);
-		
-		System.out.println(success);
-		
-		books = restTemplate.getForObject("http://localhost:8080/search", Book[].class);
-		
-		System.out.println(books.length);
-		
-		for(Book book : books)
-			System.out.println(book);
-		
-		
-		StringBuilder buyText = new StringBuilder();
-		
-		ArrayList<Book> booksToBuy = new ArrayList<>();
-		booksToBuy.add(newBook);
-		
-		Book unknownBook = new Book("unknown", "unknown", "0");
-		booksToBuy.add(unknownBook);
-		
-		for(Book book : booksToBuy) {
-			if(buyText.length() > 0)
-				buyText.append("&");
-			buyText.append("title=" + URLEncoder.encode(book.getTitle(), "UTF-8") + "&");
-			buyText.append("author=" + URLEncoder.encode(book.getAuthor(), "UTF-8") + "&");
-			buyText.append("price=" + URLEncoder.encode(book.getPrice().toString(), "UTF-8"));
-		}
-		
-		Integer[] res = restTemplate.getForObject("http://localhost:8080/buy?" + buyText.toString(), Integer[].class);
-		
-		for(int i = 0; i < res.length; i++) {
-			String successString = res[i] == BookList.OK ? "OK" : ( res[i] == BookList.NOT_IN_STOCK ? "NOT IN STOCK" : "DOES NOT EXIST");
-			
-			System.out.println(res[i] +" (" + successString + ")\t");
-		}
-			
+		for(int i = 0; i < res.length; i++)
+			System.out.print(res[i] + "\t");
+		System.out.println();
 	}
 
 }
