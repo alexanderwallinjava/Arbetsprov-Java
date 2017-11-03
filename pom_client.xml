@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.contribe.arbetsprov</groupId>
-    <artifactId>server</artifactId>
+    <artifactId>client</artifactId>
     <version>1.0</version>
 
     <parent>
@@ -43,7 +43,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.contribe.arbetsprov.MainClass</mainClass>
+                    <mainClass>com.contribe.arbetsprov.client.ClientMain</mainClass>
                 </configuration>
             </plugin>
         </plugins>
