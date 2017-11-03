@@ -10,14 +10,25 @@ import org.springframework.web.client.RestTemplate;
 import com.contribe.arbetsprov.Book;
 import com.contribe.arbetsprov.BookList;
 
+import ch.qos.logback.classic.Level;
+
 public class ClientMain {
 	
 	public static void main(String[] args) throws RestClientException, UnsupportedEncodingException {
+		ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) org.slf4j.LoggerFactory.getLogger(ch.qos.logback.classic.Logger.ROOT_LOGGER_NAME);
+		root.setLevel(Level.OFF);
+		
 		RestTemplate restTemplate = new RestTemplate();
+		
 		Book[] books = restTemplate.getForObject("http://localhost:8080/search", Book[].class);
 		
 		System.out.println(books.length);
 		
+		books = restTemplate.getForObject("http://localhost:8080/search?search=a", Book[].class);
+		
+		System.out.println(books.length);
+		
+		System.exit(0);
 		for(Book book : books)
 			System.out.println(book);
 		
