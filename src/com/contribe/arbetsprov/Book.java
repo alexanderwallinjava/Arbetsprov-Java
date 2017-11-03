@@ -40,6 +40,7 @@ public class Book implements Serializable, Comparable<Book> {
 			return this.title.compareTo(o.title);
 		
 		return price.compareTo(o.price);
+		
 	}
 	
 	@Override
