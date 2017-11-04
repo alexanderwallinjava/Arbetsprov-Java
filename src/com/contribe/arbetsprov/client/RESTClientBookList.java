@@ -1,13 +1,18 @@
 package com.contribe.arbetsprov.client;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
+import java.io.IOException;
 
-import org.springframework.web.client.RestClientException;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 
 import com.contribe.arbetsprov.Book;
 import com.contribe.arbetsprov.BookList;
+import com.contribe.arbetsprov.payload.AddPayload;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class RESTClientBookList implements BookList {
 
@@ -15,28 +20,42 @@ public class RESTClientBookList implements BookList {
 	
 	@Override
 	public Book[] list(String searchString) {
+		
 		if(searchString == null)
 			searchString = "";
 		
+		JSONObject request = new JSONObject();
 		try {
-			if(searchString.length() == 0)
-				return restTemplate.getForObject("http://localhost:8080/search", Book[].class);
+			request.put("search", searchString);
 			
-			return restTemplate.getForObject("http://localhost:8080/search?search=" + URLEncoder.encode(searchString, "UTF-8"), Book[].class);
-		} catch (UnsupportedEncodingException | RestClientException e) {
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_JSON);
+			HttpEntity<String> entity = new HttpEntity<String>(request.toString(), headers);
+			
+			Book[] data = restTemplate.postForObject("http://localhost:8080/search", entity, Book[].class);
+			
+			return data;
+		} catch (JSONException e) {
 			return new Book[0];
 		}
+		
+		
 	}
 
 	@Override
 	public boolean add(Book book, int quantity) {
+		if(book == null)
+			return false;
+		
 		try {
-			return restTemplate.getForObject("http://localhost:8080/add?title=" + 
-					URLEncoder.encode(book.getTitle(), "UTF-8") + 
-					"&author=" + URLEncoder.encode(book.getAuthor(), "UTF-8") + 
-					"&price=" + URLEncoder.encode(book.getPrice().toString(), "UTF-8") + 
-					"&amount=" + quantity, Boolean.class);
-		} catch (UnsupportedEncodingException | RestClientException e) {
+			ObjectMapper mapper = new ObjectMapper();
+			
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_JSON);
+			HttpEntity<String> entity = new HttpEntity<String>(mapper.writeValueAsString(new AddPayload(book, quantity)), headers);
+			
+			return restTemplate.postForObject("http://localhost:8080/add", entity, Boolean.class);
+		} catch (IOException e) {
 			return false;
 		}
 	}
@@ -44,30 +63,30 @@ public class RESTClientBookList implements BookList {
 	@Override
 	public int[] buy(Book... books) {
 		
-		StringBuilder buyText = new StringBuilder();
+		if(books == null)
+			return new int[0];
+		
 		try {
-			for(Book book : books) {
-				if(buyText.length() > 0)
-					buyText.append("&");
-				buyText.append("title=" + URLEncoder.encode(book.getTitle(), "UTF-8") + "&");
-				buyText.append("author=" + URLEncoder.encode(book.getAuthor(), "UTF-8") + "&");
-				buyText.append("price=" + book.getPrice().toString());
-			}
-		} catch (UnsupportedEncodingException | RestClientException e) {
-			int[] res = new int[books.length];
+			ObjectMapper mapper = new ObjectMapper();
+			
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_JSON);
+			HttpEntity<String> entity = new HttpEntity<String>(mapper.writeValueAsString(books), headers);
+			
+			Integer[] tmp = restTemplate.postForObject("http://localhost:8080/buy", entity, Integer[].class);
+			
+			int[] res = new int[tmp.length];
 			
 			for(int i = 0; i < res.length; i++)
+				res[i] = tmp[i];
+			
+			return res;
+		} catch (IOException e) {
+			int[] res = new int[books.length];
+			for(int i = 0; i < res.length; i++)
 				res[i] = BookList.DOES_NOT_EXIST;
+			
 			return res;
 		}
-		
-		Integer[] tmp = restTemplate.getForObject("http://localhost:8080/buy?" + buyText.toString(), Integer[].class);
-		
-		int[] res = new int[tmp.length];
-		
-		for(int i = 0; i < res.length; i++)
-			res[i] = tmp[i];
-		
-		return res;
 	}
 }

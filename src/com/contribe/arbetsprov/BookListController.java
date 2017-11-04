@@ -6,14 +6,12 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.contribe.arbetsprov.payload.AddPayload;
 
 
 
@@ -26,7 +24,6 @@ public class BookListController {
 	SynchronizedBookList books;
 	
 	@RequestMapping(value="/search", method = RequestMethod.POST)
-	@ResponseBody
 	public Book[] search(@RequestBody String request) {
 		
 		try {
@@ -49,32 +46,18 @@ public class BookListController {
 		
 	}
 	
-	@RequestMapping("/add")
-	public boolean add(Book book, @RequestParam(value="amount") int amount) {
-		logger.info("request for add; amount:" + amount + ", book:" + book.toString());
+	@RequestMapping(value="/add", method = RequestMethod.POST)
+	public boolean add(@RequestBody AddPayload payload) {
+		logger.info("request for add; "+ payload);
 		
-		//check if Book has been correctly initialized
-		if(!book.allVariablesSet())
+		if(!payload.book.allVariablesSet())
 			return false;
 		
-		return books.add(book, amount);
+		return books.add(payload.book, payload.amount);
 	}
 	
-	@RequestMapping("/buy")
-	public int[] buy(@RequestParam MultiValueMap<String, String> data) {
-		
-		System.out.println(data);
-		
-		int numBooks = Math.min(Math.min(data.get("title").size(),data.get("author").size()), data.get("price").size());
-		
-		Book[] books = new Book[numBooks];
-		
-		for(int i = 0; i < numBooks; i++) {
-			books[i] = new Book(
-					data.get("title").get(i),
-					data.get("author").get(i),
-					data.get("price").get(i));
-		}
+	@RequestMapping(value="/buy", method = RequestMethod.POST)
+	public int[] buy(@RequestBody Book[] books) {
 		
 		return this.books.buy(books);
 	}
