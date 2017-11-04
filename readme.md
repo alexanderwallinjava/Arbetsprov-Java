@@ -11,7 +11,8 @@ Huvudsakliga dependencies är Spring, delar av Apache Commons, m.m.
 
 mvn test
 
-Test körs på port 8080
+Systemtest körs på port 8080
+Enhetstest körs utan port exponeras
 
 ### bygga
 
