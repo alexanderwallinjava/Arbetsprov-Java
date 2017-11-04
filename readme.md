@@ -26,4 +26,5 @@ java -jar server-1.0.jar
 
 java -jar client-1.0.jar
 
-körs på port 8080, ansluter endast mot localhost
+servern kör på port 8080
+obs! Klienten ansluter endast mot localhost
