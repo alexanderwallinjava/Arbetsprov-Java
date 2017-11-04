@@ -2,6 +2,9 @@ package com.contribe.arbetsprov.payload;
 
 import com.contribe.arbetsprov.supplied.Book;
 
+/**
+ * A Jackson-compatible class for sending and receiving "add" through the REST protocol
+ */
 public class AddPayload {
 	
 	public Book book;

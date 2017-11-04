@@ -15,7 +15,9 @@ import com.contribe.arbetsprov.payload.AddPayload;
 import com.contribe.arbetsprov.supplied.Book;
 
 
-
+/**
+ * A basic REST server for the BookList protocol
+ */
 @RestController
 public class BookListController {
 

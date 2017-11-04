@@ -14,6 +14,9 @@ import com.contribe.arbetsprov.supplied.Book;
 import com.contribe.arbetsprov.supplied.BookList;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * A class that mirrors a BookList implementation reached using a REST-service
+ */
 public class RESTClientBookList implements BookList {
 
 	RestTemplate restTemplate = new RestTemplate();

@@ -17,6 +17,11 @@ import org.springframework.stereotype.Service;
 import com.contribe.arbetsprov.supplied.Book;
 import com.contribe.arbetsprov.supplied.BookList;
 
+/**
+ * A thread safe (though not an ideal implementation as synchronized is problematic 
+ * due to locking effects - sufficient for working example, 
+ * but realistically be a database in a "real" implementation for better transactional functionality
+ */
 @Service
 public class SynchronizedBookList implements BookList {
 

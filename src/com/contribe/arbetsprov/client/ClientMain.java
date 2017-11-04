@@ -11,6 +11,9 @@ import com.contribe.arbetsprov.supplied.BookList;
 
 import ch.qos.logback.classic.Level;
 
+/**
+ * A possible implementation for a client using command line access through REST
+ */
 public class ClientMain {
 	
 	public static void main(String[] args) throws RestClientException, UnsupportedEncodingException {
