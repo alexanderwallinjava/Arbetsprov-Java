@@ -1,4 +1,4 @@
-package com.contribe.arbetsprov;
+package com.contribe.arbetsprov.server;
 
 import java.io.IOException;
 import java.net.URL;
@@ -13,6 +13,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
+
+import com.contribe.arbetsprov.supplied.Book;
+import com.contribe.arbetsprov.supplied.BookList;
 
 @Service
 public class SynchronizedBookList implements BookList {

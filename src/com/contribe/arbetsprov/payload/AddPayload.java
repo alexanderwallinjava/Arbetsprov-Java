@@ -1,6 +1,6 @@
 package com.contribe.arbetsprov.payload;
 
-import com.contribe.arbetsprov.Book;
+import com.contribe.arbetsprov.supplied.Book;
 
 public class AddPayload {
 	

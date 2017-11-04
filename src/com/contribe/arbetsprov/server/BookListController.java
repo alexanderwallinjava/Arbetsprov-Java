@@ -1,4 +1,4 @@
-package com.contribe.arbetsprov;
+package com.contribe.arbetsprov.server;
 
 
 import org.json.JSONException;
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.contribe.arbetsprov.payload.AddPayload;
+import com.contribe.arbetsprov.supplied.Book;
 
 
 

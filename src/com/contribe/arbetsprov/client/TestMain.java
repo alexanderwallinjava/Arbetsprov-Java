@@ -2,7 +2,7 @@ package com.contribe.arbetsprov.client;
 
 import org.json.JSONException;
 
-import com.contribe.arbetsprov.Book;
+import com.contribe.arbetsprov.supplied.Book;
 
 import ch.qos.logback.classic.Level;
 

@@ -47,7 +47,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.contribe.arbetsprov.MainClass</mainClass>
+                    <mainClass>com.contribe.arbetsprov.server.MainClass</mainClass>
                 </configuration>
             </plugin>
         </plugins>

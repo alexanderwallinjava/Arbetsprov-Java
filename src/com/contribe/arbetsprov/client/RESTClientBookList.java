@@ -9,9 +9,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 
-import com.contribe.arbetsprov.Book;
-import com.contribe.arbetsprov.BookList;
 import com.contribe.arbetsprov.payload.AddPayload;
+import com.contribe.arbetsprov.supplied.Book;
+import com.contribe.arbetsprov.supplied.BookList;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class RESTClientBookList implements BookList {

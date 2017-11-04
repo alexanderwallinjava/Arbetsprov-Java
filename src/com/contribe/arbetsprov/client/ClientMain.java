@@ -6,8 +6,8 @@ import java.util.TreeSet;
 
 import org.springframework.web.client.RestClientException;
 
-import com.contribe.arbetsprov.Book;
-import com.contribe.arbetsprov.BookList;
+import com.contribe.arbetsprov.supplied.Book;
+import com.contribe.arbetsprov.supplied.BookList;
 
 import ch.qos.logback.classic.Level;
 

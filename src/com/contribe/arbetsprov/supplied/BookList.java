@@ -1,4 +1,4 @@
-package com.contribe.arbetsprov;
+package com.contribe.arbetsprov.supplied;
 
 public interface BookList {
 
