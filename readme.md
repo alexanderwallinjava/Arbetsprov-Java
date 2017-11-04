@@ -22,8 +22,8 @@ den kör de två maven-scripten för att skapa en klient och en server
 
 servern kräver application.properties-filen i samma folder
 
-java -jar server.jar
+java -jar server-1.0.jar
 
-java -jar client.jar
+java -jar client-1.0.jar
 
 körs på port 8080

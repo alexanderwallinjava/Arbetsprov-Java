@@ -160,23 +160,7 @@ public class ClientMain {
 			
 		}
 		in.close();
-		
-		
-		System.out.println(api.list("").length);
-		
-		Book book = new Book("Min lilla bok", "Alexander Wallin", "10.0");
-		
-		System.out.println(api.add(book, 2));
-		
-		System.out.println(api.list("").length);
-		
-		int[] res = api.buy(book);
-		
-		System.out.println(res.length);
-		
-		for(int i = 0; i < res.length; i++)
-			System.out.print(res[i] + "\t");
-		System.out.println();
+		System.out.println("bye!");
 	}
 
 }
